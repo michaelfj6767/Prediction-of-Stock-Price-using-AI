@@ -14,8 +14,8 @@ import streamlit as st
 
 from utils import buat_fitur, buat_target, FITUR
 
-MODEL_PATH = Path("model/model_saham.joblib")
-DATA_PATH = Path("data/saham_contoh.csv")
+MODEL_PATH = Path("model_saham.joblib")
+DATA_PATH = Path("saham_contoh.csv")
 
 st.set_page_config(page_title="Prediksi Arah Saham", page_icon="📈", layout="centered")
 

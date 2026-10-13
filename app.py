@@ -42,9 +42,10 @@ st.warning("⚠️ **Materi edukasi, bukan saran investasi.**")
 
 # TODO 1 (Pertemuan 4) — Muat model dari MODEL_PATH memakai joblib.load(...)
 #   Kalau file model belum ada, tampilkan pesan & st.stop().
-if not MODEL_PATH.exists():
+model = load_model()
+if model is None:
     st.error("Model belum ada. Jalankan dulu: python train_model.py"); st.stop()
-model = joblib.load(MODEL_PATH)
+
 
 
 ticker = st.text_input("Kode saham (contoh: BBCA.JK, TLKM.JK, AAPL)", value="BBCA.JK")
@@ -53,20 +54,18 @@ if sumber == "contoh":
     st.info("Memakai data contoh (offline). Di Streamlit Cloud, data nyata otomatis via yfinance.")
 
 tab1, tab2, tab3 = st.tabs(["🔮 Prediksi", "📊 Backtest", "ℹ️ Tentang"])
-
+feat = buat_fitur(df).dropna().reset_index(drop=True)
+X_terbaru = feat[FITUR].iloc[[-1]]        # baris paling akhir
+proba = model.predict_proba(X_terbaru)[0] # [prob turun, prob naik]
+arah = "NAIK" if proba[1] >= 0.5 else "TURUN"
+yakin = float(max(proba))
 # ---------------- Tab 1: Prediksi ----------------
 with tab1:
     st.subheader(f"Prediksi hari berikutnya — {ticker}")
 
     # TODO 2 (Pertemuan 4) — Hitung fitur data terbaru & prediksi arahnya.
     #   Langkah:
-    feat = buat_fitur(df).dropna().reset_index(drop=True)
-    X_terbaru = feat[FITUR].iloc[[-1]]        # baris paling akhir
-    proba = model.predict_proba(X_terbaru)[0] # [prob turun, prob naik]
-    arah = "NAIK" if proba[1] >= 0.5 else "TURUN"
-    yakin = float(max(proba))
-  
-
+    
     c1, c2 = st.columns(2)
     if arah == "NAIK":
         c1.success(f"### 📈 {arah}")

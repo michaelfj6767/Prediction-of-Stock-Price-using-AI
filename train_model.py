@@ -15,8 +15,8 @@ from sklearn.ensemble import RandomForestClassifier
 
 from utils import buat_fitur, buat_target, FITUR
 
-DATA_PATH = Path("data/saham_contoh.csv")
-MODEL_PATH = Path("model/model_saham.joblib")
+DATA_PATH = Path("saham_contoh.csv")
+MODEL_PATH = Path("model_saham.joblib")
 
 
 def main() -> None:
@@ -32,9 +32,9 @@ def main() -> None:
     #     n = int(len(df) * 0.8)
     #     X_tr, X_te = X.iloc[:n], X.iloc[n:]
     #     y_tr, y_te = y.iloc[:n], y.iloc[n:]
-          n = int(len(df) * 0.8)
-          X_tr, X_te = X.iloc[:n], X.iloc[n:]
-          y_tr, y_te = y.iloc[:n], y.iloc[n:]
+    n = int(len(df) * 0.8)
+    X_tr, X_te = X.iloc[:n], X.iloc[n:]
+    y_tr, y_te = y.iloc[:n], y.iloc[n:]
 
     # TODO 2 (Pertemuan 2) — Buat & latih model Random Forest.
     #   Petunjuk: RandomForestClassifier(n_estimators=200, random_state=0).fit(X_tr, y_tr)
